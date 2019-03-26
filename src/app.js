@@ -1,10 +1,15 @@
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
+import '@tarojs/async-await'
 import Index from './pages/index'
+import fetch from './kit/fetch'
+import auth from './kit/auth'
 
 import counterStore from './store/counter'
+import locationStore from './store/location'
 
 import './app.less'
+import 'taro-ui/dist/style/index.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -13,30 +18,61 @@ import './app.less'
 // }
 
 const store = {
-  counterStore
+  counterStore,
+  locationStore
 }
 
-class App extends Component {
 
+class App extends Component {
   config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/product/index',
+      'pages/user/index',
+      'pages/user/login/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: "#666",
+      selectedColor: "#b4282d",
+      backgroundColor: "#fafafa",
+      borderStyle: 'black',
+      list: [{
+        pagePath: "pages/index/index",
+        iconPath: "./assets/tab-bar/home.png",
+        text: "首页"
+      }, {
+        pagePath: "pages/product/index",
+        iconPath: "./assets/tab-bar/cate.png",
+        text: "发布"
+      }, {
+        pagePath: "pages/user/index",
+        iconPath: "./assets/tab-bar/user.png",
+        text: "我的"
+      }]
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    auth();
 
-  componentDidShow () {}
-
-  componentDidHide () {}
-
-  componentDidCatchError () {}
+    // 获取用户地理位置
+    wx.getLocation({
+      type: 'wgs84',
+      success(res) {
+        const {longitude, latitude} = res;
+        fetch('location', {longitude, latitude})
+          .then((res) => {
+            locationStore.setLocation(res);
+          })
+      }
+    })
+  }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数

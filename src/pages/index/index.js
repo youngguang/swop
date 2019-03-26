@@ -2,10 +2,17 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 
+import {
+  AtButton,
+  AtInput,
+  AtTextarea,
+  AtImagePicker,
+  AtForm
+} from 'taro-ui'
+
 import './index.less'
 
-
-@inject('counterStore')
+@inject('counterStore', 'locationStore')
 @observer
 class Index extends Component {
 
@@ -13,43 +20,13 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillReact')
+  constructor() {
+    super(...arguments)
   }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  increment = () => {
-    const { counterStore } = this.props
-    counterStore.increment()
-  }
-
-  decrement = () => {
-    const { counterStore } = this.props
-    counterStore.decrement()
-  }
-
-  incrementAsync = () => {
-    const { counterStore } = this.props
-    counterStore.incrementAsync()
-  }
-
   render () {
-    const { counterStore: { counter } } = this.props
     return (
-      <View className='index'>
-        <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
+      <View>
+        
       </View>
     )
   }
