@@ -78,7 +78,8 @@ class Index extends Component {
             placeholder='您想换点啥'
           />
           <AtImagePicker
-            length={9}
+            length={3}
+            showAddBtn={this.state.files.length < 9}
             multiple
             files={this.state.files}
             onChange={this.onChange.bind(this)}
