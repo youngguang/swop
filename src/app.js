@@ -7,6 +7,7 @@ import auth from './kit/auth'
 
 import counterStore from './store/counter'
 import locationStore from './store/location'
+import productStore from './store/product'
 
 import './app.less'
 import 'taro-ui/dist/style/index.scss'
@@ -19,7 +20,8 @@ import 'taro-ui/dist/style/index.scss'
 
 const store = {
   counterStore,
-  locationStore
+  locationStore,
+  productStore
 }
 
 
@@ -58,20 +60,13 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {
-    auth();
-
-    // 获取用户地理位置
-    wx.getLocation({
-      type: 'wgs84',
-      success(res) {
-        const {longitude, latitude} = res;
-        fetch('location', {longitude, latitude})
-          .then((res) => {
-            locationStore.setLocation(res);
-          })
-      }
-    })
+  async componentDidMount () {
+    await auth();
+    const {longitude, latitude} = await Taro.getLocation({type: 'wgs84'});
+    locationStore.setLocation({longitude, latitude});
+    productStore.setLocation(longitude, latitude);
+    
+    productStore.queryProduct()
   }
 
   // 在 App 类中的 render() 函数没有实际作用

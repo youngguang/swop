@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import fetch from '../../kit/fetch'
 
 import {
   AtButton,
@@ -12,7 +13,7 @@ import {
 
 import './index.less'
 
-@inject('counterStore', 'locationStore')
+@inject('locationStore', 'productStore')
 @observer
 class Index extends Component {
 
@@ -23,10 +24,16 @@ class Index extends Component {
   constructor() {
     super(...arguments)
   }
+
+  componentDidMount () {
+  }
+
   render () {
+    const {list} = this.props.productStore
+    console.log(list)
     return (
       <View>
-        
+          
       </View>
     )
   }

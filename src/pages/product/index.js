@@ -14,7 +14,7 @@ import {
 
 import './index.less'
 
-@inject('counterStore', 'locationStore')
+@inject('locationStore')
 @observer
 class Index extends Component {
 
@@ -51,12 +51,11 @@ class Index extends Component {
     const {province, city, area, longitude, latitude} = this.props.locationStore;
 
     const actFiles = await multiUpload(files.map(file => file.url))
-    console.log(actFiles)
     fetch('product/saveOrUpdate', {
         title,
         desc,
         images: actFiles,
-        location: `${longitude},${latitude}`,
+        location: `${latitude},${longitude}`,
         province,
         city,
         area

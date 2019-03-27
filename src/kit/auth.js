@@ -18,6 +18,5 @@ export default async () => {
 
     // 上报用户信息
     let { userInfo }  = await Taro.getUserInfo()
-    console.log(userInfo)
-    fetch('/reportUserInfo', userInfo);
+    return fetch('/reportUserInfo', userInfo);
 }
