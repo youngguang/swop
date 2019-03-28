@@ -1,0 +1,5 @@
+<block>
+    <view class="index">
+        <at-button type="primary" __triggerObserer="{{ _triggerObserer }}" open-type="getUserInfo" bindongetuserinfo="backTo" __fn_onGetUserInfo="{{true}}">授权登录</at-button>
+    </view>
+</block>
