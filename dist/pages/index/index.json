@@ -1,4 +1,8 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "at-search-bar": "../../npm/taro-ui/dist/weapp/components/search-bar/index",
+    "at-avatar": "../../npm/taro-ui/dist/weapp/components/avatar/index",
+    "at-image-picker": "../../npm/taro-ui/dist/weapp/components/image-picker/index"
+  },
   "navigationBarTitleText": "首页"
 }

@@ -11,12 +11,12 @@ export default async () => {
     const token = Taro.getStorageSync(auth_key)
     if (!token) {
         let wxLogin = await Taro.login()
-        let code = await fetch("quickLogin", {code: wxLogin.code})
+        let code = await fetch({url: "quickLogin", data: {code: wxLogin.code}})
         
         Taro.setStorageSync(auth_key, code)
     }
 
     // 上报用户信息
     let { userInfo }  = await Taro.getUserInfo()
-    return fetch('/reportUserInfo', userInfo);
+    return fetch({url: 'reportUserInfo', data: userInfo});
 }

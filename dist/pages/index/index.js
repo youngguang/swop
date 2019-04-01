@@ -16,7 +16,11 @@ var _index2 = _interopRequireDefault(_index);
 
 var _index3 = require("../../npm/@tarojs/mobx/index.js");
 
+var _index4 = require("../../kit/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -24,7 +28,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_class = (0, _index3.observer)(_class = (_temp2 = _class2 = function (_BaseComponent) {
+var Index = (_dec = (0, _index3.inject)('productStore'), _dec(_class = (0, _index3.observer)(_class = (_temp2 = _class2 = function (_BaseComponent) {
   _inherits(Index, _BaseComponent);
 
   function Index() {
@@ -38,7 +42,7 @@ var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["productStore"], _this.config = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["loopArray0", "list", "scrollViewHeight", "value", "productStore"], _this.config = {
       navigationBarTitleText: '首页'
     }, _this.$$refs = [], _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -47,10 +51,26 @@ var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_
     key: "_constructor",
     value: function _constructor() {
       _get(Index.prototype.__proto__ || Object.getPrototypeOf(Index.prototype), "_constructor", this).apply(this, arguments);
+
+      this.state = {
+        scrollViewHeight: 550
+      };
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {}
+  }, {
+    key: "onScrollToLower",
+    value: function onScrollToLower() {
+      var _props$productStore = this.props.productStore,
+          pageNo = _props$productStore.pageNo,
+          queryProduct = _props$productStore.queryProduct;
+
+      this.setState(function (prevState) {
+        return { scrollViewHeight: prevState.scrollViewHeight + 550 };
+      });
+      queryProduct(_defineProperty({}, pageNo, pageNo + 1));
+    }
   }, {
     key: "_createData",
     value: function _createData() {
@@ -61,8 +81,24 @@ var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_
 
       var list = this.__props.productStore.list;
 
-      console.log(list);
-      Object.assign(this.__state, {});
+      var loopArray0 = list.map(function (item, index) {
+        item = {
+          $original: (0, _index.internal_get_original)(item)
+        };
+        var $loopState__temp2 = "item_" + index;
+        var $loopState__temp4 = item.$original.images.map(function (path) {
+          return { url: _index4.config.imagePrefix + path };
+        });
+        return {
+          $loopState__temp2: $loopState__temp2,
+          $loopState__temp4: $loopState__temp4,
+          $original: item.$original
+        };
+      });
+      Object.assign(this.__state, {
+        loopArray0: loopArray0,
+        list: list
+      });
       return this.__state;
     }
   }]);
@@ -73,7 +109,7 @@ var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_
     "type": null,
     "value": null
   }
-}, _class2.$$events = [], _temp2)) || _class) || _class);
+}, _class2.$$events = ["onChange", "onActionClick", "onScrollToLower"], _temp2)) || _class) || _class);
 exports.default = Index;
 
 Component(require('../../npm/@tarojs/taro-weapp/index.js').default.createComponent(Index, true));

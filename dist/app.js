@@ -14,13 +14,7 @@ var _index3 = require("./npm/@tarojs/mobx/index.js");
 
 require("./npm/@tarojs/async-await/index.js");
 
-var _auth = require("./kit/auth.js");
-
-var _auth2 = _interopRequireDefault(_auth);
-
-var _counter = require("./store/counter.js");
-
-var _counter2 = _interopRequireDefault(_counter);
+var _index4 = require("./kit/index.js");
 
 var _location = require("./store/location.js");
 
@@ -47,7 +41,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // }
 
 var store = {
-  counterStore: _counter2.default,
   locationStore: _location2.default,
   productStore: _product2.default
 };
@@ -102,14 +95,14 @@ var _App = function (_BaseComponent) {
     key: "componentDidMount",
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _ref3, longitude, latitude;
+        var _ref3, longitude, latitude, res;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return (0, _auth2.default)();
+                return (0, _index4.auth)();
 
               case 2:
                 _context.next = 4;
@@ -119,13 +112,17 @@ var _App = function (_BaseComponent) {
                 _ref3 = _context.sent;
                 longitude = _ref3.longitude;
                 latitude = _ref3.latitude;
+                _context.next = 9;
+                return (0, _index4.fetch)('location', { longitude: longitude, latitude: latitude });
 
-                _location2.default.setLocation({ longitude: longitude, latitude: latitude });
-                _product2.default.setLocation(longitude, latitude);
+              case 9:
+                res = _context.sent;
 
-                _product2.default.queryProduct();
+                _location2.default.setLocation(res);
 
-              case 10:
+                _product2.default.queryProduct({ longitude: longitude, latitude: latitude });
+
+              case 12:
               case "end":
                 return _context.stop();
             }

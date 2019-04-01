@@ -1,5 +1,5 @@
-import { observable, action, reaction } from 'mobx'
-import fetch from '../kit/fetch'
+import { observable, action } from 'mobx'
+import {fetch} from 'kit'
 
 class Product {
     @observable list = []
@@ -7,25 +7,23 @@ class Product {
     longitude = ''
     latitude = ''
     @observable pageNo = 0
-    @observable pageSize = 20
 
     setLocation(longitude, latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        self.longitude = longitude;
+        self.latitude = latitude;
     }
 
-    @action async queryProduct() {
+    @action async queryProduct(queryParam = {}) {
         let data = {
-          q: this.q,
-          longitude: this.longitude,
-          latitude: this.latitude,
-          pageNo: this.pageNo,
-          pageSize: this.pageSize
+          q: self.q = (queryParam.q || self.q),
+          longitude: self.longitude = (queryParam.longitude || self.longitude),
+          latitude: self.latitude = (queryParam.latitude || self.latitude),
+          pageNo: self.pageNo = (queryParam.pageNo || self.pageNo),
         }
-        let res = await fetch('/product/list', data);   
-        console.log(res)
-        this.list = res.data;
+        let res = await fetch({url: '/product/list', data});   
+        self.list = self.list.concat(res.data);
     }
 }
 
-export default new Product();
+const self = new Product();
+export default self;

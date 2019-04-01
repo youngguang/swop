@@ -2,10 +2,8 @@ import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import '@tarojs/async-await'
 import Index from './pages/index'
-import fetch from './kit/fetch'
-import auth from './kit/auth'
+import {auth, fetch} from 'kit'
 
-import counterStore from './store/counter'
 import locationStore from './store/location'
 import productStore from './store/product'
 
@@ -19,7 +17,6 @@ import 'taro-ui/dist/style/index.scss'
 // }
 
 const store = {
-  counterStore,
   locationStore,
   productStore
 }
@@ -63,10 +60,10 @@ class App extends Component {
   async componentDidMount () {
     await auth();
     const {longitude, latitude} = await Taro.getLocation({type: 'wgs84'});
-    locationStore.setLocation({longitude, latitude});
-    productStore.setLocation(longitude, latitude);
+    const res = await fetch({url: 'location', data:{longitude, latitude}})
+    locationStore.setLocation(res);
     
-    productStore.queryProduct()
+    productStore.queryProduct({longitude, latitude})
   }
 
   // 在 App 类中的 render() 函数没有实际作用

@@ -1,3 +1,21 @@
 <block>
-    <view></view>
+    <view>
+        <at-search-bar actionName="搜一下" __triggerObserer="{{ _triggerObserer }}" value="{{value}}" bindonchange="onChange" bindonactionclick="onActionClick" __fn_onChange="{{true}}" data-e-onchange-so="this" __fn_onActionClick="{{true}}" data-e-onactionclick-so="this"></at-search-bar>
+        <scroll-view scroll-y="{{true}}" bindscrolltolower="onScrollToLower" style="{{'height: ' + scrollViewHeight + 'px;'}}">
+            <view wx:key="$loopState__temp2" wx:for="{{loopArray0}}" wx:for-item="item" wx:for-index="index">
+                <view class="at-row">
+                    <view class="at-col at-col-3">
+                        <at-avatar circle="{{true}}" __triggerObserer="{{ _triggerObserer }}" image="{{item.$original.avatarUrl}}"></at-avatar></view>
+                    <view class="at-col at-col-3">{{item.$original.nickName}}</view>
+                </view>
+                <view>
+                    <view>
+                        <view>{{item.$original.title || ''}}</view>
+                        <view>{{item.$original.desc || ''}}</view>
+                    </view>
+                </view>
+                <at-image-picker length="{{3}}" __triggerObserer="{{ _triggerObserer }}" files="{{item.$loopState__temp4}}"></at-image-picker>
+            </view>
+        </scroll-view>
+    </view>
 </block>

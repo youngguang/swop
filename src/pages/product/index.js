@@ -1,8 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import fetch from '../../kit/fetch'
-import {multiUpload} from '../../kit/upload'
+import {fetch, upload} from 'kit'
 
 import {
   AtButton,
@@ -14,7 +13,7 @@ import {
 
 import './index.less'
 
-@inject('locationStore')
+@inject('locationStore', 'productStore')
 @observer
 class Index extends Component {
 
@@ -47,11 +46,26 @@ class Index extends Component {
   }
 
   onPublish = async(e) => {
-    const {title, desc, files} = this.state;
-    const {province, city, area, longitude, latitude} = this.props.locationStore;
+    const {
+      title,
+      desc,
+      files
+    } = this.state;
+    const {
+      locationStore: {
+        province,
+        city,
+        area,
+        longitude,
+        latitude
+      },
+      productStore : {
+        queryProduct
+      }
+    } = this.props;
 
-    const actFiles = await multiUpload(files.map(file => file.url))
-    fetch('product/saveOrUpdate', {
+    const actFiles = await upload.multiUpload(files.map(file => file.url))
+    fetch({url: 'product/saveOrUpdate', data:{
         title,
         desc,
         images: actFiles,
@@ -59,8 +73,12 @@ class Index extends Component {
         province,
         city,
         area
-    }).then(() => {
-        Taro.showToast({title:'发布成功'})
+    }}).then(() => {
+        Taro.showToast({title:'发布成功'}).then(() => {
+          queryProduct().then(() => {
+            Taro.switchTab({url: '/pages/index/index'})
+          })
+        })
     })
   }
 

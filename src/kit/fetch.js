@@ -1,7 +1,7 @@
 import {host, auth_key} from './config'
 import Taro from '@tarojs/taro'
 
-export default (url, data, method = 'post') => 
+export default ({url, data, method = 'post'}) => 
     new Promise((resolve, reject) =>  
         wx.request({
             url: `${host}/${url}`,

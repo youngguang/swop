@@ -16,11 +16,7 @@ var _index2 = _interopRequireDefault(_index);
 
 var _index3 = require("../../npm/@tarojs/mobx/index.js");
 
-var _fetch = require("../../kit/fetch.js");
-
-var _fetch2 = _interopRequireDefault(_fetch);
-
-var _upload = require("../../kit/upload.js");
+var _index4 = require("../../kit/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,7 +28,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Index = (_dec = (0, _index3.inject)('locationStore'), _dec(_class = (0, _index3.observer)(_class = (_temp2 = _class2 = function (_BaseComponent) {
+var Index = (_dec = (0, _index3.inject)('locationStore', 'productStore'), _dec(_class = (0, _index3.observer)(_class = (_temp2 = _class2 = function (_BaseComponent) {
   _inherits(Index, _BaseComponent);
 
   function Index() {
@@ -47,7 +43,7 @@ var Index = (_dec = (0, _index3.inject)('locationStore'), _dec(_class = (0, _ind
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["anonymousState__temp", "province", "city", "area", "title", "desc", "files", "value", "locationStore"], _this.config = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.$usedState = ["anonymousState__temp", "province", "city", "area", "title", "desc", "files", "value", "locationStore", "productStore"], _this.config = {
       navigationBarTitleText: '首页'
     }, _this.onChangeTitle = function (title) {
       _this.setState({ title: title });
@@ -62,23 +58,23 @@ var Index = (_dec = (0, _index3.inject)('locationStore'), _dec(_class = (0, _ind
       });
     }, _this.onPublish = function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-        var _this$state, title, desc, files, _this$props$locationS, province, city, area, longitude, latitude, actFiles;
+        var _this$state, title, desc, files, _this$props, _this$props$locationS, province, city, area, longitude, latitude, queryProduct, actFiles;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this$state = _this.state, title = _this$state.title, desc = _this$state.desc, files = _this$state.files;
-                _this$props$locationS = _this.props.locationStore, province = _this$props$locationS.province, city = _this$props$locationS.city, area = _this$props$locationS.area, longitude = _this$props$locationS.longitude, latitude = _this$props$locationS.latitude;
+                _this$props = _this.props, _this$props$locationS = _this$props.locationStore, province = _this$props$locationS.province, city = _this$props$locationS.city, area = _this$props$locationS.area, longitude = _this$props$locationS.longitude, latitude = _this$props$locationS.latitude, queryProduct = _this$props.productStore.queryProduct;
                 _context.next = 4;
-                return (0, _upload.multiUpload)(files.map(function (file) {
+                return _index4.upload.multiUpload(files.map(function (file) {
                   return file.url;
                 }));
 
               case 4:
                 actFiles = _context.sent;
 
-                (0, _fetch2.default)('product/saveOrUpdate', {
+                (0, _index4.fetch)('product/saveOrUpdate', {
                   title: title,
                   desc: desc,
                   images: actFiles,
@@ -87,7 +83,11 @@ var Index = (_dec = (0, _index3.inject)('locationStore'), _dec(_class = (0, _ind
                   city: city,
                   area: area
                 }).then(function () {
-                  _index2.default.showToast({ title: '发布成功' });
+                  _index2.default.showToast({ title: '发布成功' }).then(function () {
+                    queryProduct().then(function () {
+                      _index2.default.switchTab({ url: '/pages/index/index' });
+                    });
+                  });
                 });
 
               case 6:
@@ -141,6 +141,10 @@ var Index = (_dec = (0, _index3.inject)('locationStore'), _dec(_class = (0, _ind
   return Index;
 }(_index.Component), _class2.properties = {
   "locationStore": {
+    "type": null,
+    "value": null
+  },
+  "productStore": {
     "type": null,
     "value": null
   }

@@ -1,3 +1,4 @@
+const path = require('path')
 const config = {
   projectName: 'swop',
   date: '2019-3-18',
@@ -31,6 +32,9 @@ const config = {
     ],
     options: {
     }
+  },
+  alias: {
+    'kit': path.resolve(__dirname, '..', 'src/kit')
   },
   weapp: {
     module: {

@@ -1,5 +1,10 @@
 'use strict';
 
-exports.host = 'http://127.0.0.1:8085';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var host = exports.host = 'http://47.101.163.139:8080';
 
-exports.auth_key = 'l_t';
+var auth_key = exports.auth_key = 'l_t';
+
+var imagePrefix = exports.imagePrefix = '//img.1000.com/qm-a-img/dev/';
